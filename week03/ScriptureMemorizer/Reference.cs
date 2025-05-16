@@ -1,31 +1,49 @@
-public class Reference
+using System;
+
+class Reference
 {
-    private string _book;
-    private int _chapter;
-    private int _verse;
-    private int _endVerse;
+    public string Book { get; private set; }
+    public int Chapter { get; private set; }
+    public int StartVerse { get; private set; }
+    public int? EndVerse { get; private set; }
 
-    public Reference(string book, int chapter, int verse)
+    public Reference(string referenceText)
     {
-        _book = book;
-        _chapter = chapter;
-        _verse = verse;
-        _endVerse = verse;
-    }
+        var parts = referenceText.Split(' ', 2);
+        if (parts.Length < 2)
+            throw new ArgumentException("Invalid reference format.");
 
-    public Reference(string book, int chapter, int startVerse, int endVerse)
-    {
-        _book = book;
-        _chapter = chapter;
-        _verse = startVerse;
-        _endVerse = endVerse;
+        Book = parts[0];
+
+        string chapterAndVerses = parts[1];
+        var chapterParts = chapterAndVerses.Split(':');
+
+        Chapter = int.Parse(chapterParts[0]);
+
+        if (chapterParts.Length == 2)
+        {
+            var verseParts = chapterParts[1].Split('-');
+            StartVerse = int.Parse(verseParts[0]);
+            if (verseParts.Length == 2)
+            {
+                EndVerse = int.Parse(verseParts[1]);
+            }
+        }
+        else
+        {
+            StartVerse = 1;
+        }
     }
 
     public string GetDisplayText()
     {
-        if (_verse == _endVerse)
-            return $"{_book} {_chapter}:{_verse}";
+        if (EndVerse.HasValue)
+        {
+            return $"{Book} {Chapter}:{StartVerse}-{EndVerse.Value}";
+        }
         else
-            return $"{_book} {_chapter}:{_verse}-{_endVerse}";
+        {
+            return $"{Book} {Chapter}:{StartVerse}";
+        }
     }
 }
