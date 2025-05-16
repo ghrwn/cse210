@@ -1,46 +1,52 @@
 using System;
-using System.Collections.Generic;
 
-class Program
+namespace MindfulnessProgram
 {
-    static void Main(string[] args)
+    class Program
     {
-        while (true)
+        static void Main(string[] args)
         {
-            Console.Clear();
-            Console.WriteLine("Mindfulness Program");
-            Console.WriteLine("1. Breathing Activity");
-            Console.WriteLine("2. Reflecting Activity");
-            Console.WriteLine("3. Listing Activity");
-            Console.WriteLine("4. Quit");
-            Console.Write("Choose an option: ");
-
-            string choice = Console.ReadLine();
-
-            switch (choice)
+            while (true)
             {
-                case "1":
-                    BreathingActivity breathingActivity = new BreathingActivity();
-                    breathingActivity.Run();
-                    break;
-                case "2":
-                    ReflectingActivity reflectingActivity = new ReflectingActivity();
-                    reflectingActivity.Run();
-                    break;
-                case "3":
-                    ListingActivity listingActivity = new ListingActivity();
-                    listingActivity.Run();
-                    break;
-                case "4":
-                    Console.WriteLine("Goodbye!");
-                    return;
-                default:
-                    Console.WriteLine("Invalid choice. Please try again.");
-                    break;
-            }
+                Console.Clear();
+                Console.WriteLine("Mindfulness Program");
+                Console.WriteLine("-------------------");
+                Console.WriteLine("1. Breathing Activity");
+                Console.WriteLine("2. Reflection Activity");
+                Console.WriteLine("3. Listing Activity");
+                Console.WriteLine("4. Quit");
+                Console.Write("Choose an option (1-4): ");
 
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
+                string choice = Console.ReadLine();
+
+                Activity activity = null;
+
+                switch (choice)
+                {
+                    case "1":
+                        activity = new BreathingActivity();
+                        break;
+                    case "2":
+                        activity = new ReflectingActivity();
+                        break;
+                    case "3":
+                        activity = new ListingActivity();
+                        break;
+                    case "4":
+                        Console.WriteLine("Goodbye! Stay mindful.");
+                        System.Threading.Thread.Sleep(1500);
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Press any key to try again.");
+                        Console.ReadKey();
+                        continue;
+                }
+
+                activity.Run();
+
+                Console.WriteLine("Press any key to return to the main menu.");
+                Console.ReadKey();
+            }
         }
     }
 }

@@ -1,24 +1,30 @@
 using System;
 
-class BreathingActivity : Activity
+namespace MindfulnessProgram
 {
-    public BreathingActivity() : base("Breathing", "This activity will help you relax by guiding you through slow, deep breaths.", 30)
+    public class BreathingActivity : Activity
     {
-    }
-
-    public override void Run()
-    {
-        DisplayStartingMessage();
-
-        int cycles = _duration / 10;
-        for (int i = 0; i < cycles; i++)
+        public BreathingActivity()
         {
-            Console.Write("\nBreathe in... ");
-            ShowCountDown(5);
-            Console.Write("Breathe out... ");
-            ShowCountDown(5);
+            _activityName = "Breathing Activity";
+            _description = "This activity will help you relax by walking you through breathing in and out slowly. Clear your mind and focus on your breathing.";
         }
 
-        DisplayEndingMessage();
+        protected override void PerformActivity()
+        {
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = startTime.AddSeconds(_duration);
+
+            while (DateTime.Now < endTime)
+            {
+                Console.Write("Breathe in...");
+                Countdown(4);
+                Console.WriteLine();
+
+                Console.Write("Breathe out...");
+                Countdown(6);
+                Console.WriteLine();
+            }
+        }
     }
 }
